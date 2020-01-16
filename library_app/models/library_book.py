@@ -5,6 +5,7 @@ from odoo.exceptions import Warning
 class Book(models.Model):
     _name = 'library.book'
     _description = 'Book'
+    _order = 'name, date_published desc'
 
     @api.multi
     def _check_isbn(self):
@@ -33,3 +34,15 @@ class Book(models.Model):
     image = fields.Binary('Cover')
     publisher_id = fields.Many2one('res.partner', string='Publisher')
     author_ids = fields.Many2many('res.partner', string='Authors')
+    book_type = fields.Selection(
+        [('paper', 'Paperback'),
+         ('hard', 'Hardcover'),
+         ('electronic', 'Electronic'),
+         ('other', 'Other')],
+        'Type')
+    notes = fields.Text('Internal Notes')
+    descr = fields.Html('Description')
+
+    # Numeric fields
+    copies = fields.Integer(default=1)
+    avg_rating = fields.Float('Average Rating', (3, 2))
