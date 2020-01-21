@@ -46,3 +46,10 @@ class Book(models.Model):
     # Numeric fields
     copies = fields.Integer(default=1)
     avg_rating = fields.Float('Average Rating', (3, 2))
+    price = fields.Monetary('Price', 'currency_id')
+    currency_id = fields.Many2one('res.currency')
+
+    # Date and time fields
+    last_borrow_date = fields.Datetime(
+        'Last Borrowed On',
+        default=lambda self: fields.Datetime.now())
